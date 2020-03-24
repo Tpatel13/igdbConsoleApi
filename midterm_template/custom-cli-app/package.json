@@ -1,0 +1,16 @@
+{
+  "name": "custom-cli-app",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "igdb": "file:../igdb",
+    "inquirer": "^7.1.0",
+    "yargs": "^15.3.1"
+  }
+}

@@ -1,0 +1,2 @@
+midterm_template\custom-cli-app\node_modules\*
+gdb\node_modules\*
