@@ -11,6 +11,8 @@
   "dependencies": {
     "igdb": "file:../igdb",
     "inquirer": "^7.1.0",
+    "log4js": "^6.1.2",
+    "table": "^5.4.6",
     "yargs": "^15.3.1"
   }
 }

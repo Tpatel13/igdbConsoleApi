@@ -6,48 +6,70 @@
 // displays the fetched details cleanly
 
 const igdb = require('igdb');
-const inquirer = require('inquirer');
+const validator=require('./utils/validator')
+const selector=require('./utils/keySelector')
+const printUtil=require('./utils/printUtil')
 
-const _printOnConsole = async games => {
-    // return a new array of objects where name is what is displayed to the user
-    // and value is what is returned from the inquirer prompt
-    const displayGames = games.map(card => {
-        return { name: `${card.name}`,value:card.id};
-    });
+const log4js = require('log4js');
+log4js.configure({
+  appenders: { cheese: { type: 'file', filename: 'logs.log' } },
+  categories: { default: { appenders: ['cheese'], level: 'info' } }
+});
+ 
+const logger = log4js.getLogger('APP');
 
-    // create an inquirer checkbox prompt
-    return inquirer.prompt([
-        {
-            type: 'list',
-            name: 'id',
-            message: 'Please Select Game to get details',
-
-            // display the cards to the user for them to select
-            choices: displayGames,
-        }
-    ]);
-};
 
 
 const search=async (input)=>{
+
+    //Object Destrcturing with default limit 20 
+    const {limit=20,_,sort=false}=input
+
+    let  timePerformance=new Date().getMilliseconds();
     //Fetching from Api with input and Stroring 
-     const data=await igdb.search(input[1]);
-     const selectedGameID=(await _printOnConsole(data)).id
+    const data=await igdb.search(_[1],limit);
+   
+    logger.info(`Responce Time of search ${(new Date().getMilliseconds())-timePerformance}`)
+
+    //Validation of response 
+    if (validator.nullDataValidaor(data)) throw new Error
+    
+    //Selection of Fatched games 
+    const selectedGameID=(await printUtil.printSelection(data)).id
 
     //Now Searching game by iD
-    console.log(selectedGameID)
-    const gameData=await igdb.searchByID(selectedGameID)
-
-    console.log(gameData)
-  
-}
-
-
-const searchByID=async (input)=>{
+    const gameData=(await igdb.searchByID(selectedGameID))
     
-    //Fetch From Api with input ID
-
-
+    //Printing All the fields and getting Input from the user 
+    const key=await selector.keySelector(gameData)
+    
+    //Printing on console
+    printUtil.printSelected(gameData[0],key.keys)
+    
+    logger.info("Success Fully Completed")
 }
 
-module.exports={search}
+
+const searchByID=async(gameID)=>{
+ 
+    //Input Validation
+    if(validator.numberValidator(gameID._[1]))throw new Error
+
+
+    let  timePerformance=new Date().getMilliseconds();
+
+    //Fatching data
+    const data=await igdb.searchByID(gameID._[1])
+     
+    logger.info(`Responce Time of search By ID ${(new Date().getMilliseconds())-timePerformance}`)
+
+    //Checkig for empty data responce 
+    if (validator.nullDataValidaor(data)) throw new Error
+    
+    //Printing data
+    console.log(data)
+}
+
+
+
+module.exports={search,searchByID}

@@ -6,16 +6,14 @@ const superagent=require('superagent');
 const url=require('./config.json');
 
 
-
-
 // a function that accepts input data and return search results with Id , name  
 
-const search = async (input) => {
-    const searchURL = `${url.url}/games/?search=${input}&fields=id,name`;
+const search = async (input,limit,sort) => {
+    const searchURL = `${url.url}/games/?search=${input}&fields=id,name&limit=${limit}&sort id asc`;
     try {
-        console.log(`Searching for ${input}...`)
-         const drawResponse = await superagent.post(searchURL).set({"Accept":'application/json',"user-key": url.key});
-        return drawResponse.body;
+         console.log(`Searching for ${input}...`)
+         const responce = await superagent.post(searchURL).set({"Accept":'application/json',"user-key": url.key});
+         return responce.body;
     } catch (error) {
         return error;
     }
@@ -23,14 +21,10 @@ const search = async (input) => {
 
 
 const searchByID=async (input)=>{
-    const searchURL = `${url.url}/games`;
+    const URL = `${url.url}/games`;
     try {   
-        console.log(`Searching for ${input}...`)
-        
-        const drawResponse = await superagent.post(searchURL). set({"Accept":'application/json',"user-key": url.key}).send(`fields *;where id=${input};`)
-
- 
-         return drawResponse.body
+        const responce = await superagent.post(URL).set({"Accept":'application/json',"user-key": url.key}).send(`fields *;where id=${input};`)
+        return responce.body
             
     } catch (error) {
         return error;
@@ -38,10 +32,8 @@ const searchByID=async (input)=>{
 
 }
 
-const select= async(input)=>{
 
-}
 
 // export these functions so they can be used
 
-module.exports={search,select,searchByID}
+module.exports={search,searchByID}
