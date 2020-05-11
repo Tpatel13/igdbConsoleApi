@@ -23,52 +23,41 @@ const logger = log4js.getLogger('APP');
 const search=async (input)=>{
 
     //Object Destrcturing with default limit 20 
-    const {limit=20,_,sort=false}=input
+    const limit=20;
 
-    let  timePerformance=new Date().getMilliseconds();
+    
     //Fetching from Api with input and Stroring 
-    const data=await igdb.search(_[1],limit);
+    const data=await igdb.search(input,limit);
    
-    logger.info(`Responce Time of search ${(new Date().getMilliseconds())-timePerformance}`)
-
+   
     //Validation of response 
     if (validator.nullDataValidaor(data)) throw new Error
     
-    //Selection of Fatched games 
-    const selectedGameID=(await printUtil.printSelection(data)).id
 
-    //Now Searching game by iD
-    const gameData=(await igdb.searchByID(selectedGameID))
-    
-    //Printing All the fields and getting Input from the user 
-    const key=await selector.keySelector(gameData)
-    
-    //Printing on console
-    printUtil.printSelected(gameData[0],key.keys)
-    
     logger.info("Success Fully Completed")
-}
+
+    return data;
+  }
 
 
 const searchByID=async(gameID)=>{
- 
+
     //Input Validation
-    if(validator.numberValidator(gameID._[1]))throw new Error
+    if(validator.numberValidator(gameID))throw new Error
 
 
     let  timePerformance=new Date().getMilliseconds();
 
     //Fatching data
-    const data=await igdb.searchByID(gameID._[1])
+    const data=await igdb.searchByID(gameID)
      
+
     logger.info(`Responce Time of search By ID ${(new Date().getMilliseconds())-timePerformance}`)
 
     //Checkig for empty data responce 
     if (validator.nullDataValidaor(data)) throw new Error
     
-    //Printing data
-    console.log(data)
-}
+return data}
 
 
 
