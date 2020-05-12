@@ -24,7 +24,10 @@
 <script>
 export default {
   name: "GameDetails",
-  props: ["data"]
+  props: ["data"],
+  methods:{
+    
+  }
 };
 </script>
 

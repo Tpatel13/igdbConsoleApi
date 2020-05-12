@@ -1,28 +1,28 @@
 <template>
   <div class="container">
     <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">#ID</th>
-          <th scope="col">Game Name</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(dataa,index) in data" v-bind:key="dataa.id">
-          <th scope="row">{{index}}</th>
-          <td>{{dataa.id}}</td>
-          <td>{{dataa.name}}</td>
-        </tr>
+        <thead>
+          <tr>
+            <th scope="col">#History</th>
+            <th scope="col">#Key</th>
+            <th scope="col">Value</th>
+          </tr>
+        </thead>
+     <tbody>
+         <tr v-for="(value, name,index) in historyData" v-bind:key="index">
+            <th scope="row">{{index}}</th>
+            <td>{{name}}</td>
+            <td>{{value}}</td>
+          </tr>
       </tbody>
-    </table>
+      </table>
   </div>
 </template>
 
 <script>
 export default {
   name: "History",
-  props: ["data"]
+  props: ["historyData"]
 };
 </script>
 
