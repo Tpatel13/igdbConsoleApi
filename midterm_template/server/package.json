@@ -13,7 +13,7 @@
     "express": "^4.17.1",
     "igdb": "file:../igdb",
     "inquirer": "^7.1.0",
-    "log4js": "^6.1.2",
+    "log4js": "^6.4.0",
     "nodemon": "^2.0.3",
     "table": "^5.4.6",
     "yargs": "^15.3.1"
